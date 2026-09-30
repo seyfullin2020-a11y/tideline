@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers';
-import { SignJWT, jwtVerify } from 'jose';
+import { SignJWT, jwtVerify, errors } from 'jose';
+import type { JWTPayload } from 'jose';
 import { db } from './db';
 import { HttpError } from './http';
 function secret() {
@@ -26,13 +27,18 @@ export async function setSession(userId: string) {
 export async function currentUser() {
   const token = (await cookies()).get('tideline_session')?.value;
   if (!token) return null;
+  const key = secret();
+  let payload: JWTPayload;
   try {
-    const { payload } = await jwtVerify(token, secret(), { algorithms: ['HS256'] });
-    const user = await db.user.findUnique({ where: { id: payload.sub } });
-    return user && user.sessionVersion === payload.version ? user : null;
-  } catch {
-    return null;
+    ({ payload } = await jwtVerify(token, key, { algorithms: ['HS256'] }));
+  } catch (error) {
+    if (error instanceof errors.JOSEError) return null;
+    throw error;
   }
+  if (typeof payload.sub !== 'string' || typeof payload.version !== 'number') return null;
+  // An unavailable database is a service error, not an invalid session.
+  const user = await db.user.findUnique({ where: { id: payload.sub } });
+  return user && user.sessionVersion === payload.version ? user : null;
 }
 export async function requireUser() {
   const user = await currentUser();

@@ -5,7 +5,9 @@ import { createHash, randomBytes } from 'node:crypto';
 import { z } from 'zod';
 import { db } from '../../../../server/db';
 import { currentUser, publicUser, setSession } from '../../../../server/auth';
-import { failure, HttpError, limit, sameOrigin } from '../../../../server/http';
+import { HttpError, limit, sameOrigin } from '../../../../server/http';
+import { assertAuthConfiguration, authFailure } from '../../../../server/auth-errors';
+export const runtime = 'nodejs';
 export async function GET() {
   try {
     const user = await currentUser();
@@ -14,7 +16,7 @@ export async function GET() {
       configured: !!process.env.DATABASE_URL,
     });
   } catch (e) {
-    return failure(e);
+    return authFailure(e);
   }
 }
 export async function POST(req: Request, { params }: { params: Promise<{ action: string }> }) {
@@ -29,6 +31,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ action:
     limit(`auth:${req.headers.get('x-forwarded-for') ?? 'local'}`, 15);
     const data = await req.json();
     if (action === 'register' || action === 'login') {
+      assertAuthConfiguration();
       const input = z
         .object({
           email: z
@@ -113,6 +116,6 @@ export async function POST(req: Request, { params }: { params: Promise<{ action:
     }
     throw new HttpError(404, 'Операция не найдена.');
   } catch (e) {
-    return failure(e);
+    return authFailure(e);
   }
 }

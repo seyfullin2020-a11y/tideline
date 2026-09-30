@@ -105,6 +105,11 @@ test('registration UI, password reset revocation, profile themes and logout', as
   await page.getByLabel('Пароль', { exact: true }).fill('Test-only-new-password');
   await page.getByRole('button', { name: 'Войти', exact: true }).click();
   await expect(page).toHaveURL(/dashboard/);
+  await page.reload();
+  await expect(page).toHaveURL(/dashboard/);
+  const restored = await page.request.get('/api/auth/me');
+  await expect(restored).toBeOK();
+  expect((await restored.json()).user.id).toBe(user.id);
   await page.goto('/profile');
   await page.getByRole('button', { name: 'Выйти из аккаунта' }).click();
   await expect(page).toHaveURL('http://localhost:3000/');
