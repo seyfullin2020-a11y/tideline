@@ -111,7 +111,8 @@ npm run test:e2e
 
 ## Deployment
 
-Standalone Docker Node service + managed PostgreSQL — основной вариант для долгих SSE-соединений. Есть Dockerfile/Compose, переменные и миграции. Vercel требует учёта ограничений времени stream-функций. [Подробный deployment guide](docs/deployment.md). Публичная публикация ещё не выполнена: credentials хостинга, GitHub repo и домен не предоставлены.
+Standalone Docker Node service + managed PostgreSQL — основной вариант для долгих SSE-соединений. Есть Dockerfile/Compose, переменные и миграции. Vercel требует учёта ограничений времени stream-функций. [Подробный deployment guide](docs/deployment.md). - Сайт опубликован на Vercel: https://tideline-smoky.vercel.app/
+Исходный код: https://github.com/seyfullin2020-a11y/tideline
 
 ## AI Tools
 
@@ -128,7 +129,6 @@ UI написан самостоятельно, готовые шаблоны и
 ## Known Limitations
 
 - Исходный файл задания Narxoz не приложен; соответствие проверено по тексту пользователя.
-- Нет опубликованного production URL и GitHub remote. Локальная проверка не заменяет smoke-test после реального деплоя.
 - Password recovery требует настроенного Resend и verified sender; без них отображается явная ошибка. Email verification пока нет.
 - SSE polling увеличивает число запросов: для масштаба нужны pub/sub, connection pooling и distributed rate limiter. Текущий лимитер действует в одном Node-процессе.
 - Presence приблизительный; нет автофорфейта после disconnect, модерации, чата и автоматического планировщика турниров.
