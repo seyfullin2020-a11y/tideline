@@ -182,7 +182,7 @@ test('auth, social, PRO, profiles and real tournament progression', async ({ pla
   expect(final.tournaments.find((t: { id: string }) => t.id === tournament.id).status).toBe(
     'finished',
   );
-  expect((await post(a, '/api/auth/logout', {})).ok()).toBe(true);
+  await expect(await post(a, '/api/auth/logout', {})).toBeOK();
   expect((await a.get('/api/community')).status()).toBe(401);
   expect(
     (

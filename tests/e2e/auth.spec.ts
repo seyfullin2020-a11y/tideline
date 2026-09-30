@@ -2,6 +2,50 @@ import { test, expect } from '@playwright/test';
 import { PrismaClient } from '@prisma/client';
 import { randomBytes, createHash } from 'node:crypto';
 test.skip(process.env.TEST_DATABASE !== '1', 'Requires disposable PostgreSQL.');
+
+test('logout clears the session after credential requests hit the rate limit', async ({
+  request,
+}) => {
+  const suffix = Date.now().toString(36);
+  // Isolate the exhausted bucket from other scenarios sharing the test server.
+  const headers = {
+    Origin: 'http://localhost:3000',
+    'X-Forwarded-For': `logout-regression-${suffix}`,
+  };
+  await expect(
+    await request.post('/api/auth/register', {
+      headers,
+      data: {
+        email: `logout_${suffix}@example.test`,
+        username: `logout_${suffix}`,
+        password: 'Test-only-password-2026',
+      },
+    }),
+  ).toBeOK();
+  expect((await request.get('/api/community')).status()).toBe(200);
+  for (let i = 0; i < 14; i++) {
+    expect((await request.post('/api/auth/login', { headers, data: {} })).status()).toBe(400);
+  }
+  const throttled = await request.post('/api/auth/login', { headers, data: {} });
+  expect(throttled.status()).toBe(429);
+  expect(await throttled.json()).toHaveProperty('error');
+  // Exhaustion must not bypass CSRF protection or keep the user signed in.
+  expect(
+    (
+      await request.post('/api/auth/logout', {
+        headers: { ...headers, Origin: 'https://untrusted.example' },
+        data: {},
+      })
+    ).status(),
+  ).toBe(403);
+  expect((await request.get('/api/community')).status()).toBe(200);
+  const logout = await request.post('/api/auth/logout', { headers, data: {} });
+  await expect(logout).toBeOK();
+  expect(await logout.json()).toEqual({ ok: true });
+  expect((await request.get('/api/community')).status()).toBe(401);
+  expect((await (await request.get('/api/auth/me')).json()).user).toBeNull();
+  await expect(await request.post('/api/auth/logout', { headers, data: {} })).toBeOK();
+});
 test('registration UI, password reset revocation, profile themes and logout', async ({
   page,
   request,

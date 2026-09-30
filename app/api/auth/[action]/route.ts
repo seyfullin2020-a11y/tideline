@@ -20,12 +20,13 @@ export async function GET() {
 export async function POST(req: Request, { params }: { params: Promise<{ action: string }> }) {
   try {
     sameOrigin(req);
-    limit(`auth:${req.headers.get('x-forwarded-for') ?? 'local'}`, 15);
     const { action } = await params;
     if (action === 'logout') {
       (await cookies()).delete('tideline_session');
       return NextResponse.json({ ok: true });
     }
+    // Always allow same-origin session clearing, even when credential requests are throttled.
+    limit(`auth:${req.headers.get('x-forwarded-for') ?? 'local'}`, 15);
     const data = await req.json();
     if (action === 'register' || action === 'login') {
       const input = z
