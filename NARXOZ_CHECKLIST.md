@@ -1,0 +1,38 @@
+# Narxoz Incubator 2026 — TIDELINE
+
+Исходный документ не предоставлен. Таблица проверяет требования из сообщений пользователя, а не подтверждает соответствие недоступному файлу задания.
+
+| Требование                  | Реализовано                                          | Где находится                                        | Как проверить                                                                     |
+| --------------------------- | ---------------------------------------------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------- |
+| Полноценная партия          | Да                                                   | lib/game/engine.ts, /game/[id]                       | Уничтожить 20 палуб Classic или 9 Blitz; результат после всего флота              |
+| Правила и расстановка       | Да                                                   | engine.ts, components/placement.tsx                  | Границы, запрет касания, вращение, выбор/удаление/перемещение; npm test           |
+| AI без подглядывания        | Да                                                   | lib/game/ai.ts                                       | chooseShot принимает только Knowledge; симуляции в tests/engine.test.ts           |
+| Difficulty                  | Да, 4 уровня                                         | /play                                                | Easy/Normal/Hard/Expert; Expert после Demo PRO                                    |
+| Persistence                 | Да                                                   | localStorage, PostgreSQL Game.state                  | Refresh локального/серверного матча                                               |
+| Auth                        | Да; recovery требует email provider                  | /login, /register, /forgot-password, /reset-password | Регистрация, вход, выход; reset-тест; Resend env для отправки письма              |
+| Statistics/profile/history  | Да                                                   | /dashboard, /statistics, /profile, /history          | Завершить матч, проверить реальные цифры, открыть историю                         |
+| Multiplayer                 | Да                                                   | server/games.ts, app/api/games                       | Два отдельных аккаунта/браузера; оба Ready                                        |
+| Friend link                 | Да                                                   | /game/[id]                                           | Copy Invite Link → второй аккаунт открывает ссылку                                |
+| Realtime                    | Да, SSE с polling базы                               | /api/games/[id]/stream                               | Ход в первом браузере появляется во втором без refresh                            |
+| Скрытые корабли защищены    | Да для серверных матчей                              | server/games.ts:view                                 | API/SSE содержат myFleet, но не fleets/enemyFleet; third-party 403                |
+| Reconnect                   | Да                                                   | GameScreen, EventSource, database                    | Refresh и новая сессия того же аккаунта; Reconnecting/Match restored              |
+| Trainer                     | Да, анализ реальных ходов                            | lib/game/trainer.ts, MatchAnalysis                   | Завершить матч → Анализ партии; советы зависят от истории                         |
+| Replay                      | Да, Demo PRO                                         | GameScreen                                           | Replay → play/pause/previous/next/slider                                          |
+| Social                      | Да, базовый                                          | /friends, /profile/[id]                              | Запрос по username, принять, online status, recent opponents, room invite         |
+| Leaderboard/Elo             | Да, база, server-side                                | /leaderboard, server/games.ts                        | Завершить multiplayer, проверить ratingChange и таблицу; AI не меняет Elo         |
+| Achievements                | Да, 6 условий                                        | server/games.ts, /profile                            | First Victory, 10 Wins, Streak, Sharpshooter, Perfect Game, Blitz Champion        |
+| Tournaments                 | Да, 4 игрока                                         | /tournaments, /tournaments/[id]                      | Собрать 4 аккаунта → полуфиналы → финал → завершение                              |
+| Own direction               | Да, Blitz Battle                                     | /play?mode=blitz                                     | 7×7 и сокращённый флот для короткого матча                                        |
+| Monetization demo           | Да, без платежей                                     | /pro, User.plan                                      | Demo Upgrade реально открывает Expert, replay, advanced statistics                |
+| Themes                      | Да                                                   | app/globals.css, /profile                            | Ocean / Tactical / Arctic; сохраняются                                            |
+| Responsive                  | Да, проверено E2E                                    | app/responsive.css                                   | 320/375/390/414/768/1440, поля без overflow, мобильные вкладки                    |
+| Accessibility/sound         | Базовый реализован                                   | Board, Nav, Provider, CSS                            | Keyboard, coordinate aria labels, focus, reduced motion, sound toggle default off |
+| Backend/database/migrations | Да                                                   | app/api, server, prisma                              | npm run db:migrate; real PostgreSQL E2E                                           |
+| Seed                        | Да, development only                                 | prisma/seed.ts                                       | Explicit DEMO_EMAIL/DEMO_PASSWORD; нет вымышленных побед                          |
+| README/docs                 | Да                                                   | README.md, docs/                                     | Запуск, архитектура, AI, база, multiplayer, deployment, ограничения               |
+| Unit/integration/E2E        | Да                                                   | tests/, .github/workflows/ci.yml                     | npm test; TEST_DATABASE=1 npm run test:e2e                                        |
+| Production build            | Да, финальный результат в docs/qa.md                 | package.json, Next config                            | npm run build                                                                     |
+| GitHub                      | Подготовлен CI; публикация не выполнена              | .github/workflows/ci.yml                             | Репозиторий/remote и credentials не предоставлены                                 |
+| Deployment                  | Конфигурация готова; внешняя публикация не выполнена | Dockerfile, compose.yaml, docs/deployment.md         | Нужен hosting account + HTTPS domain; публичный URL не выдумывается               |
+
+Проект не заявляет выполнение внешнего deployment QA до появления production URL. Архитектурные ограничения SSE, in-process rate limiting и email verification перечислены в README.

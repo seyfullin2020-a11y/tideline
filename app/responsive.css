@@ -1,0 +1,464 @@
+@media (min-width: 1500px) {
+  .hero {
+    padding-top: 100px;
+    padding-bottom: 85px;
+  }
+  .hero-visual {
+    max-width: 490px;
+  }
+}
+@media (max-width: 1000px) {
+  .nav-inner {
+    padding: 0 24px;
+    gap: 20px;
+  }
+  .nav-links {
+    gap: 17px;
+    font-size: 10px;
+  }
+  .nav-actions {
+    gap: 15px;
+  }
+  .shell {
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+  .hero {
+    gap: 25px;
+    padding-top: 55px;
+  }
+  h1 {
+    font-size: 38px;
+  }
+  .hero-buttons .button {
+    padding: 0 14px;
+    font-size: 10px;
+  }
+  .hero-metrics {
+    gap: 20px;
+  }
+  .hero-metrics > div {
+    padding-right: 20px;
+  }
+  .hero-metrics strong {
+    font-size: 18px;
+  }
+  .mode-card {
+    padding: 20px;
+  }
+  .mode-card h3 {
+    font-size: 13px;
+  }
+  .mode-card p {
+    font-size: 10px;
+  }
+  .home-bottom {
+    flex-wrap: wrap;
+  }
+  .boards {
+    gap: 30px;
+  }
+  .game-page {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+  .cell {
+    font-size: 18px;
+  }
+  .placement-layout {
+    gap: 25px;
+  }
+  .theme-picker {
+    display: none;
+  }
+}
+@media (max-width: 760px) {
+  .nav {
+    height: 70px;
+  }
+  .nav-inner {
+    padding: 0 20px;
+  }
+  .logo {
+    font-size: 19px;
+    gap: 9px;
+  }
+  .logo-icon {
+    width: 29px;
+    height: 32px;
+  }
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+    flex-direction: column;
+    align-items: start;
+    font-size: 13px;
+    gap: 22px;
+  }
+  .nav-links.open {
+    display: flex;
+  }
+  .icon-button.mobile-menu {
+    display: flex;
+  }
+  .nav-actions {
+    gap: 13px;
+  }
+  .nav-login {
+    font-size: 11px;
+  }
+  .shell {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+  .hero {
+    grid-template-columns: 1fr;
+    padding-top: 38px;
+    gap: 45px;
+    padding-bottom: 30px;
+  }
+  .hero-copy {
+    min-width: 0;
+    max-width: 550px;
+  }
+  h1 {
+    font-size: 42px;
+    letter-spacing: -1.8px;
+  }
+  .hero-description {
+    font-size: 13px;
+    margin-top: 19px;
+  }
+  .hero-buttons .button {
+    font-size: 11px;
+    padding: 0 18px;
+  }
+  .hero-metrics {
+    margin-top: 30px;
+    gap: 29px;
+  }
+  .hero-metrics > div {
+    padding-right: 28px;
+  }
+  .hero-metrics strong {
+    font-size: 22px;
+  }
+  .hero-visual {
+    min-width: 0;
+    .visual-orbit {
+      inset: -15px 0;
+    }
+    max-width: 430px;
+    width: 100%;
+    margin: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .preview-wrap {
+    transform: rotate(-2deg);
+  }
+  .floating-signal {
+    left: -8px;
+    right: 15px;
+  }
+  .visual-caption {
+    font-size: 6px;
+  }
+  .mode-section {
+    padding-top: 22px;
+  }
+  .section-heading h2 {
+    font-size: 21px;
+  }
+  .mode-cards {
+    grid-template-columns: 1fr;
+  }
+  .mode-card {
+    padding: 23px;
+  }
+  .card-top {
+    margin-bottom: 18px;
+  }
+  .mode-card h3 {
+    font-size: 17px;
+  }
+  .mode-card p {
+    max-width: none;
+    font-size: 12px;
+    margin-bottom: 18px;
+  }
+  .card-link {
+    font-size: 11px;
+  }
+  .feature-strip {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  .feature-strip strong {
+    font-size: 12px;
+  }
+  .feature-strip small {
+    font-size: 10px;
+  }
+  .home-bottom {
+    padding-top: 35px;
+    padding-bottom: 35px;
+    gap: 18px;
+  }
+  .home-bottom > div {
+    width: 100%;
+  }
+  footer {
+    padding: 25px 22px;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  footer > span:last-child {
+    width: 100%;
+    margin: 0;
+  }
+  .page {
+    padding: 35px 22px;
+  }
+  .page-title {
+    font-size: 29px;
+  }
+  .page-heading {
+    align-items: start;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .mode-picker {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .choice {
+    min-height: 90px;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    gap: 5px 15px;
+  }
+  .choice svg {
+    grid-row: span 2;
+    margin: 0;
+  }
+  .choice small {
+    margin: 0;
+  }
+  .play-options,
+  .dashboard-grid,
+  .analysis-grid,
+  .pro-grid,
+  .tournament-grid {
+    grid-template-columns: 1fr;
+  }
+  .stat-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .stat {
+    padding: 18px;
+  }
+  .stat strong {
+    font-size: 26px;
+  }
+  .actions-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .action-tile {
+    font-size: 11px;
+    padding: 16px;
+  }
+  .game-page {
+    padding: 16px 16px 35px;
+  }
+  .game-header h1 {
+    font-size: 18px;
+  }
+  .game-meta {
+    font-size: 8px;
+    gap: 8px;
+  }
+  .game-toolbar {
+    gap: 5px;
+  }
+  .game-toolbar .icon-button {
+    width: 34px;
+    height: 34px;
+  }
+  .game-toolbar .button {
+    min-height: 34px;
+    padding: 0 10px;
+    font-size: 9px;
+  }
+  .turn-bar {
+    margin: 15px 0;
+    padding: 12px;
+    top: 5px;
+    font-size: 10px;
+  }
+  .game-mobile-tabs {
+    display: flex;
+    margin-bottom: 20px;
+  }
+  .boards {
+    display: block;
+    margin: 15px auto;
+    max-width: 440px;
+  }
+  .board-container.mobile-hidden {
+    display: none;
+  }
+  .board-title h2 {
+    font-size: 12px;
+  }
+  .cell {
+    font-size: 22px;
+    border-radius: 4px;
+  }
+  .board-grid {
+    gap: 3px;
+  }
+  .placement-layout {
+    display: flex;
+    flex-direction: column;
+    margin: 20px auto;
+    gap: 25px;
+    max-width: 440px;
+  }
+  .placement-layout .panel {
+    padding: 20px;
+  }
+  .placement-layout .board-container {
+    order: 0;
+  }
+  .result-panel {
+    padding: 25px 16px;
+  }
+  .result-panel h2 {
+    font-size: 27px;
+  }
+  .result-actions .button {
+    padding: 0 14px;
+    font-size: 10px;
+  }
+  .auth-page {
+    margin-top: 35px;
+  }
+  .auth-page .panel {
+    padding: 25px;
+  }
+  .feature-strip {
+    margin-left: 22px;
+    margin-right: 22px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .section-heading .text-link {
+    font-size: 9px;
+  }
+  .pro-grid {
+    gap: 16px;
+  }
+  .toast {
+    font-size: 11px;
+  }
+  .theme-settings {
+    display: flex;
+  }
+}
+@media (max-width: 360px) {
+  .nav-inner {
+    padding: 0 14px;
+  }
+  .logo {
+    font-size: 17px;
+  }
+  .nav-login {
+    font-size: 10px;
+  }
+  .nav-actions {
+    gap: 8px;
+  }
+  .hero h1 {
+    font-size: 34px;
+  }
+  .shell {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .hero-buttons {
+    gap: 8px;
+  }
+  .hero-buttons .button {
+    font-size: 10px;
+    padding: 0 13px;
+  }
+  .hero-metrics {
+    gap: 19px;
+  }
+  .hero-metrics > div {
+    padding-right: 18px;
+  }
+  .hero-metrics strong {
+    font-size: 19px;
+  }
+  .hero-metrics span {
+    font-size: 8px;
+  }
+  .season-badge {
+    font-size: 7px;
+    letter-spacing: 0.7px;
+  }
+  .preview-wrap {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .floating-signal {
+    padding: 12px;
+    gap: 8px;
+    bottom: 54px;
+  }
+  .floating-signal strong {
+    font-size: 9px;
+  }
+  .floating-signal div > span {
+    font-size: 7px;
+  }
+  .signal-plus {
+    font-size: 7px;
+  }
+  .section-heading h2 {
+    font-size: 18px;
+  }
+  .game-page {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .cell {
+    font-size: 18px;
+  }
+  .board-grid {
+    gap: 2px;
+  }
+  .page {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *:before,
+  *:after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

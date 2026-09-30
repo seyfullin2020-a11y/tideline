@@ -1,0 +1,117 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+model User {
+  id String @id @default(cuid())
+  email String @unique
+  username String @unique
+  passwordHash String
+  sessionVersion Int @default(0)
+  createdAt DateTime @default(now())
+  lastSeen DateTime @default(now())
+  theme String @default("ocean")
+  plan String @default("free")
+  rating Int @default(1000)
+  wins Int @default(0)
+  losses Int @default(0)
+  streak Int @default(0)
+  bestStreak Int @default(0)
+  players GamePlayer[]
+  sent Friendship[] @relation("sender")
+  received Friendship[] @relation("recipient")
+  achievements UserAchievement[]
+  tournaments TournamentParticipant[]
+  resets PasswordReset[]
+  @@index([rating])
+}
+model Game {
+  id String @id @default(cuid())
+  kind String
+  mode String
+  difficulty String @default("normal")
+  status String @default("placement")
+  state Json
+  version Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  finishedAt DateTime?
+  players GamePlayer[]
+  events GameEvent[]
+  tournamentId String?
+  tournament Tournament? @relation(fields:[tournamentId],references:[id])
+  round Int?
+  bracketIndex Int?
+  @@index([kind,status,createdAt])
+}
+model GamePlayer {
+  id String @id @default(cuid())
+  gameId String
+  userId String
+  seat Int
+  ready Boolean @default(false)
+  ratingChange Int @default(0)
+  game Game @relation(fields:[gameId],references:[id],onDelete:Cascade)
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  @@unique([gameId,userId])
+  @@unique([gameId,seat])
+  @@index([userId])
+}
+model GameEvent {
+  id String @id @default(cuid())
+  gameId String
+  sequence Int
+  payload Json
+  createdAt DateTime @default(now())
+  game Game @relation(fields:[gameId],references:[id],onDelete:Cascade)
+  @@unique([gameId,sequence])
+}
+model Friendship {
+  id String @id @default(cuid())
+  senderId String
+  recipientId String
+  status String @default("pending")
+  createdAt DateTime @default(now())
+  sender User @relation("sender",fields:[senderId],references:[id],onDelete:Cascade)
+  recipient User @relation("recipient",fields:[recipientId],references:[id],onDelete:Cascade)
+  @@unique([senderId,recipientId])
+  @@index([recipientId,status])
+}
+model UserAchievement {
+  id String @id @default(cuid())
+  userId String
+  code String
+  unlockedAt DateTime @default(now())
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  @@unique([userId,code])
+}
+model Tournament {
+  id String @id @default(cuid())
+  name String
+  creatorId String
+  status String @default("open")
+  capacity Int @default(4)
+  createdAt DateTime @default(now())
+  participants TournamentParticipant[]
+  games Game[]
+}
+model TournamentParticipant {
+  id String @id @default(cuid())
+  tournamentId String
+  userId String
+  eliminated Boolean @default(false)
+  tournament Tournament @relation(fields:[tournamentId],references:[id],onDelete:Cascade)
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  @@unique([tournamentId,userId])
+}
+model PasswordReset {
+  id String @id @default(cuid())
+  tokenHash String @unique
+  userId String
+  expiresAt DateTime
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  @@index([userId])
+}
